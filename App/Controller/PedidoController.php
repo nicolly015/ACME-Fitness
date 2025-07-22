@@ -1,6 +1,18 @@
 <?php
 namespace App\Controller;
 
+require_once __DIR__ . '/../DAO/PedidoDAO.php';
+require_once __DIR__ . '/../DAO/ClienteDAO.php';
+require_once __DIR__ . '/../DAO/EnderecoDAO.php';
+require_once __DIR__ . '/../DAO/VariacaoDAO.php';
+require_once __DIR__ . '/../DAO/CategoriaDAO.php';
+require_once __DIR__ . '/../DAO/ProdutoDAO.php';
+require_once __DIR__ . '/../Model/Pedido.php';
+require_once __DIR__ . '/../Model/ItensPedido.php';
+require_once __DIR__ . '/../Service/PedidoService.php';
+require_once __DIR__ . '/../Service/VariacaoService.php';
+require_once __DIR__ . '/../Enums/FormaPagamentoEnum.php';
+
 use App\DAO\PedidoDAO;
 use App\DAO\ClienteDAO;
 use App\DAO\EnderecoDAO;
@@ -9,8 +21,8 @@ use App\DAO\CategoriaDAO;
 use App\DAO\ProdutoDAO;
 use App\Model\Pedido;
 use App\Model\ItensPedido;
-use Services\PedidoService;
-use Services\VariacaoService;
+use Service\PedidoService;
+use Service\VariacaoService;
 use Enums\FormaDePagamento;
 use PDO;
 use Exception;

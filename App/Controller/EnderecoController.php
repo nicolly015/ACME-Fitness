@@ -1,6 +1,10 @@
 <?php
 namespace App\Controller;
 
+require_once __DIR__ . '/../DAO/EnderecoDAO.php';
+require_once __DIR__ . '/../DAO/ClienteDAO.php';
+require_once __DIR__ . '/../Model/Endereco.php';
+
 use App\DAO\EnderecoDAO;
 use App\DAO\ClienteDAO;
 use App\Model\Endereco;
@@ -15,7 +19,7 @@ class EnderecoController {
         $this->clienteDAO = new ClienteDAO($conexao);
     }
 
-    public function criar(array $dados): void {
+    public function criar(array $dados){
         try {
             $camposObrigatorios = ["logradouro", "cidade", "bairro", "numero", "cep", "cliente_id"];
             foreach ($camposObrigatorios as $campo) {

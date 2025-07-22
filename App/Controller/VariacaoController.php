@@ -1,10 +1,15 @@
 <?php
 namespace App\Controller;
 
+require_once __DIR__ . '/../DAO/CategoriaDAO.php';
+require_once __DIR__ . '/../DAO/ProdutoDAO.php';
+require_once __DIR__ . '/../DAO/VariacaoDAO.php';
+require_once __DIR__ . '/../Model/Variacao.php';
+
 use App\DAO\CategoriaDAO;
 use App\DAO\ProdutoDAO;
 use App\DAO\VariacaoDAO;
-use App\Model\Variacoes;
+use App\Model\Variacao;
 use PDO;
 use RuntimeException;
 use InvalidArgumentException;
@@ -31,7 +36,7 @@ class VariacaoController {
                 throw new InvalidArgumentException("Campos obrigatórios não preenchidos");
             }
 
-            $variacao = new Variacoes(
+            $variacao = new Variacao(
                 $dados["tamanho"],
                 (int) $dados["estoque"],
                 (int) $dados["produto_id"]

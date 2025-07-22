@@ -1,6 +1,10 @@
 <?php
 namespace App\Controller;
 
+require_once __DIR__ . '/../DAO/CategoriaDAO.php';
+require_once __DIR__ . '/../DAO/ProdutoDAO.php';
+require_once __DIR__ . '/../Model/Produto.php';
+
 use App\DAO\CategoriaDAO;
 use App\DAO\ProdutoDAO;
 use App\Model\Produto;

@@ -1,6 +1,9 @@
 <?php
 namespace App\Controller;
 
+require_once __DIR__ . '/../DAO/CategoriaDAO.php';
+require_once __DIR__ . '/../Model/Categoria.php';
+
 use App\DAO\CategoriaDAO;
 use App\Model\Categoria;
 use PDO;

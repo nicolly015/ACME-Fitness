@@ -1,6 +1,9 @@
 <?php
 namespace App\Controller;
 
+require_once __DIR__ . '/../DAO/ClienteDAO.php';
+require_once __DIR__ . '/../Model/Cliente.php';
+
 use App\DAO\ClienteDAO;
 use App\Model\Cliente;
 use PDO;
