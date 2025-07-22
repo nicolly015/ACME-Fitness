@@ -27,32 +27,36 @@ class Cliente {
         return $this->id;
     }
 
-    public function setId(int $id): void {
+    public function setId(int $id){
         $this->id = $id;
+        return $this;
     }
 
     public function getNomeCompleto(): string {
         return $this->nomeCompleto;
     }
 
-    public function setNomeCompleto(string $nomeCompleto): void {
+    public function setNomeCompleto(string $nomeCompleto){
         $this->nomeCompleto = $nomeCompleto;
+        return $this;
     }
 
     public function getCpf(): string {
         return $this->cpf;
     }
 
-    public function setCpf(string $cpf): void {
+    public function setCpf(string $cpf){
         $this->cpf = $cpf;
+        return $this;
     }
 
     public function getDataNascimento() {
         return $this->dataNascimento;
     }
 
-    public function setDataNascimento($dataNascimento): void {
+    public function setDataNascimento($dataNascimento){
         $this->dataNascimento = $dataNascimento;
+        return $this;
     }
 }
 ?>

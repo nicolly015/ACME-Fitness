@@ -18,36 +18,41 @@ class ItensPedido {
     public function getId(): ?int {
         return $this->id;
     }
-    public function setId(int $id): void {
+    public function setId(int $id) {
         $this->id = $id;
+        return $this;
     }
 
     public function getPrecoVenda(): float {
         return $this->precoVenda;
     }
-    public function setPrecoVenda(float $precoVenda): void {
+    public function setPrecoVenda(float $precoVenda){
         $this->precoVenda = $precoVenda;
+        return $this;
     }
 
     public function getQuantidade(): int {
         return $this->quantidade;
     }
-    public function setQuantidade(int $quantidade): void {
+    public function setQuantidade(int $quantidade){
         $this->quantidade = $quantidade;
+        return $this;
     }
 
     public function getPedidoId(){
         return $this->pedidoId;
     }
-    public function setPedido($pedidoId): void {
+    public function setPedidoId($pedidoId){
         $this->pedidoId = $pedidoId;
+        return $this;
     }
 
     public function getVariacaoId(){
         return $this->variacaoId;
     }
-    public function setVariacaoId($variacaoId): void {
+    public function setVariacaoId($variacaoId){
         $this->variacaoId = $variacaoId;
+        return $this;
     }
 
     public function getSubtotal(): float {

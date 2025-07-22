@@ -3,15 +3,15 @@ namespace App\Model;
 
 class Endereco {
     private ?int $id = null;
-    private string $logradouro;
+    private ?string $logradouro = null;
     private string $cidade;
-    private string $bairro;
-    private string $numero;
-    private string $cep;
-    private string $complemento;
+    private ?string $bairro = null;
+    private ?string $numero = null;
+    private ?string $cep = null;
+    private ?string $complemento = null;
     private int $clienteId;
 
-    public function __construct(string $logradouro, string $cidade, string $bairro, string $numero, string $cep, string $complemento, int $clienteId) {
+    public function __construct(?string $logradouro, string $cidade, ?string $bairro, ?string $numero, ?string $cep, ?string $complemento, int $clienteId) {
         $this->logradouro = $logradouro;
         $this->cidade = $cidade;
         $this->bairro = $bairro;
@@ -26,8 +26,9 @@ class Endereco {
         return $this->id;
     }
 
-    public function setId(int $id): void {
+    public function setId(int $id){
         $this->id = $id;
+        return $this;
     }
 
     public function getLogradouro()
@@ -38,6 +39,7 @@ class Endereco {
     public function setLogradouro($logradouro)
     {
         $this->logradouro = $logradouro;
+        return $this;
     }
 
     public function getCidade()
@@ -48,6 +50,7 @@ class Endereco {
     public function setCidade($cidade)
     {
         $this->cidade = $cidade;
+        return $this;
     }
 
     public function getBairro()
@@ -58,6 +61,7 @@ class Endereco {
     public function setBairro($bairro)
     {
         $this->bairro = $bairro;
+        return $this;
     }
 
     public function getNumero()
@@ -68,6 +72,7 @@ class Endereco {
     public function setNumero($numero)
     {
         $this->numero = $numero;
+        return $this;
     }
 
     public function getCep()
@@ -78,6 +83,7 @@ class Endereco {
     public function setCep($cep)
     {
         $this->cep = $cep;
+        return $this;
     }
 
     public function getComplemento()
@@ -88,6 +94,7 @@ class Endereco {
     public function setComplemento($complemento)
     {
         $this->complemento = $complemento;
+        return $this;
     }
 
     public function getClienteId()
@@ -98,6 +105,7 @@ class Endereco {
     public function setCliente($clienteId)
     {
         $this->clienteId = $clienteId;
+        return $this;
     }
 }
 ?>
