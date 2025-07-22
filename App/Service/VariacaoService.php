@@ -1,5 +1,10 @@
 <?php
-namespace Services;
+namespace Service;
+
+require_once __DIR__ . '/../DAO/VariacaoDAO.php';
+require_once __DIR__ . '/../Model/Pedido.php';
+require_once __DIR__ . '/../Model/ItensPedido.php';
+
 
 use App\DAO\VariacaoDAO;
 use App\Model\Pedido;

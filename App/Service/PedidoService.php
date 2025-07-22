@@ -1,9 +1,14 @@
 <?php
-namespace Services;
+namespace Service;
+
+require_once __DIR__ . '/../Model/Pedido.php';
+require_once __DIR__ . '/../Model/ItensPedido.php';
+require_once __DIR__ . '/../Service/VariacaoService.php';
+require_once __DIR__ . '/../Enums/FormaPagamentoEnum.php';
 
 use App\Model\Pedido;
 use App\Model\ItensPedido;
-use Services\VariacaoService;
+use Service\VariacaoService;
 use Enums\FormaDePagamento;
 use Exception;
 
