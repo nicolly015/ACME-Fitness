@@ -1,6 +1,8 @@
 <?php
 namespace App\DAO;
 
+require_once __DIR__ . '/../Model/Endereco.php';
+
 use App\Model\Endereco;
 use PDO;
 use PDOException;
@@ -17,7 +19,7 @@ class EnderecoDAO {
         try {
             $this->conexao->beginTransaction();
 
-            $sql = "INSERT INTO enderecos
+            $sql = "INSERT INTO endereco
                     (logradouro, cidade, bairro, numero, cep, complemento, cliente_id)
                     VALUES
                     (:logradouro, :cidade, :bairro, :numero, :cep, :complemento, :cliente_id)";
@@ -44,7 +46,7 @@ class EnderecoDAO {
 
     public function buscarPorId(int $id): ?Endereco {
         try {
-            $sql = "SELECT * FROM enderecos WHERE id = :id";
+            $sql = "SELECT * FROM endereco WHERE id_endereco = :id";
             $stmt = $this->conexao->prepare($sql);
             $stmt->execute([':id' => $id]);
             $dados = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -60,7 +62,7 @@ class EnderecoDAO {
 
     public function buscarTodos(): array {
     try {
-        $sql = "SELECT * FROM enderecos";
+        $sql = "SELECT * FROM endereco";
         $stmt = $this->conexao->query($sql);
 
         $enderecos = [];
@@ -76,7 +78,7 @@ class EnderecoDAO {
 
     public function buscarPorCliente(int $clienteId): array {
         try {
-            $sql = "SELECT * FROM enderecos WHERE cliente_id = :cliente_id";
+            $sql = "SELECT * FROM endereco WHERE cliente_id = :cliente_id";
             $stmt = $this->conexao->prepare($sql);
             $stmt->execute([':cliente_id' => $clienteId]);
 
@@ -92,14 +94,14 @@ class EnderecoDAO {
 
     public function atualizar(Endereco $endereco): void {
         try {
-            $sql = "UPDATE enderecos SET
+            $sql = "UPDATE endereco SET
                     logradouro = :logradouro,
                     cidade = :cidade,
                     bairro = :bairro,
                     numero = :numero,
                     cep = :cep,
                     complemento = :complemento
-                    WHERE id = :id";
+                    WHERE id_endereco = :id";
 
             $stmt = $this->conexao->prepare($sql);
             $stmt->execute([
@@ -119,7 +121,7 @@ class EnderecoDAO {
 
     public function excluir(int $id): void {
         try {
-            $sql = "DELETE FROM enderecos WHERE id = :id";
+            $sql = "DELETE FROM endereco WHERE id_endereco = :id";
             $stmt = $this->conexao->prepare($sql);
             $stmt->execute([':id' => $id]);
 
@@ -139,7 +141,7 @@ class EnderecoDAO {
         (int)$dados['cliente_id']
     );
 
-    $endereco->setId((int)$dados['id']);
+    $endereco->setId((int)$dados['id_endereco']);
     return $endereco;
 }
 

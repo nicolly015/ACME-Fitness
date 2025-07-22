@@ -1,6 +1,8 @@
 <?php
 namespace App\DAO;
 
+require_once __DIR__ . '/../Model/Cliente.php';
+
 use App\Model\Cliente;
 use PDO;
 use PDOException;
@@ -17,7 +19,7 @@ class ClienteDAO {
         try {
             $this->conexao->beginTransaction();
 
-            $sql = "INSERT INTO clientes (nome_completo, cpf, data_nascimento)
+            $sql = "INSERT INTO cliente (nome_completo, cpf, data_nascimento)
                     VALUES (:nome_completo, :cpf, :data_nascimento)";
             $stmt = $this->conexao->prepare($sql);
             $stmt->execute([
@@ -37,7 +39,7 @@ class ClienteDAO {
 
     public function buscarPorId(int $id): ?Cliente {
         try {
-            $sql = "SELECT * FROM clientes WHERE id = :id";
+            $sql = "SELECT * FROM cliente WHERE id_cliente = :id";
             $stmt = $this->conexao->prepare($sql);
             $stmt->execute([':id' => $id]);
             $dados = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -48,7 +50,7 @@ class ClienteDAO {
                 $dados['nome_completo'],
                 $dados['cpf'],
                 new \DateTime($dados['data_nascimento'])
-            )->setId((int)$dados['id']);
+            )->setId((int)$dados['id_cliente']);
 
         } catch (PDOException $e) {
             throw new RuntimeException("Erro ao buscar cliente: " . $e->getMessage());
@@ -57,14 +59,14 @@ class ClienteDAO {
 
     public function buscarTodos(): array {
         try {
-            $stmt = $this->conexao->query("SELECT * FROM clientes");
+            $stmt = $this->conexao->query("SELECT * FROM cliente");
             return array_map(
                 function ($dados) {
                     return (new Cliente(
                         $dados['nome_completo'],
                         $dados['cpf'],
                         new \DateTime($dados['data_nascimento'])
-                    ))->setId((int)$dados['id']);
+                    ))->setId((int)$dados['id_cliente']);
                 },
                 $stmt->fetchAll(PDO::FETCH_ASSOC)
             );
@@ -76,11 +78,11 @@ class ClienteDAO {
 
     public function atualizar(Cliente $cliente): void {
         try {
-            $sql = "UPDATE clientes SET
+            $sql = "UPDATE cliente SET
                     nome_completo = :nome,
                     cpf = :cpf,
                     data_nascimento = :nasc
-                    WHERE id = :id";
+                    WHERE id_cliente = :id";
 
             $stmt = $this->conexao->prepare($sql);
             $stmt->execute([
@@ -97,7 +99,7 @@ class ClienteDAO {
 
     public function excluir(int $id): void {
         try {
-            $sql = "DELETE FROM clientes WHERE id = :id";
+            $sql = "DELETE FROM cliente WHERE id_cliente = :id";
             $stmt = $this->conexao->prepare($sql);
             $stmt->execute([':id' => $id]);
 

@@ -1,6 +1,8 @@
 <?php
 namespace App\DAO;
 
+require_once __DIR__ . '/../Model/ItensPedido.php';
+
 use App\Model\ItensPedido;
 use PDO;
 
@@ -29,7 +31,7 @@ class ItensPedidoDAO {
     }
 
     public function buscarPorId(int $id): ?ItensPedido {
-        $sql = "SELECT * FROM itens_pedido WHERE id = :id";
+        $sql = "SELECT * FROM itens_pedido WHERE id_itens_pedido = :id";
         $stmt = $this->conexao->prepare($sql);
         $stmt->execute([':id' => $id]);
         $dados = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -66,7 +68,7 @@ class ItensPedidoDAO {
                 quantidade = :quantidade,
                 pedido_id = :pedido_id,
                 variacao_id = :variacao_id
-                WHERE id = :id";
+                WHERE id_itens_pedido = :id";
 
         $stmt = $this->conexao->prepare($sql);
         $stmt->execute([
@@ -79,7 +81,7 @@ class ItensPedidoDAO {
     }
 
     public function excluir(int $id): void {
-        $sql = "DELETE FROM itens_pedido WHERE id = :id";
+        $sql = "DELETE FROM itens_pedido WHERE id_itens_pedido = :id";
         $stmt = $this->conexao->prepare($sql);
         $stmt->execute([':id' => $id]);
     }
@@ -97,7 +99,7 @@ class ItensPedidoDAO {
             (int)$dados['pedido_id'],
             (int)$dados['variacao_id']
         );
-        $item->setId((int)$dados['id']);
+        $item->setId((int)$dados['id_itens_pedido']);
         return $item;
     }
 }

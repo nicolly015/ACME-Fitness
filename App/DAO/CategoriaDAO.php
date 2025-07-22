@@ -1,6 +1,8 @@
 <?php
 namespace App\DAO;
 
+require_once __DIR__ . '/../Model/Categoria.php';
+
 use App\Model\Categoria;
 use PDO;
 use PDOException;
@@ -34,7 +36,7 @@ class CategoriaDAO {
     }
 
     public function buscarPorId(int $id): ?Categoria {
-        $sql = "SELECT * FROM categorias WHERE id = :id";
+        $sql = "SELECT * FROM categorias WHERE id_categoria = :id";
         $stmt = $this->conexao->prepare($sql);
         $stmt->bindValue(":id", $id, PDO::PARAM_INT);
         $stmt->execute();
@@ -55,7 +57,7 @@ class CategoriaDAO {
 
     public function atualizar(Categoria $categoria): void {
         try {
-            $sql = "UPDATE categorias SET nome = :nome, descricao = :descricao WHERE id = :id";
+            $sql = "UPDATE categorias SET nome = :nome, descricao = :descricao WHERE id_categoria = :id";
             $stmt = $this->conexao->prepare($sql);
             $stmt->execute([
                 ':nome' => $categoria->getNome(),
@@ -70,7 +72,7 @@ class CategoriaDAO {
 
     public function excluir(int $id): void {
         try {
-            $sql = "DELETE FROM categorias WHERE id = :id";
+            $sql = "DELETE FROM categorias WHERE id_categoria = :id";
             $stmt = $this->conexao->prepare($sql);
             $stmt->bindValue(":id", $id, PDO::PARAM_INT);
             $stmt->execute();
@@ -82,7 +84,7 @@ class CategoriaDAO {
 
     private function mapearParaObjeto(array $dados): Categoria {
         $categoria = new Categoria($dados['nome'], $dados['descricao']);
-        $categoria->setId((int)$dados['id']);
+        $categoria->setId((int)$dados['id_categoria']);
         return $categoria;
     }
 }

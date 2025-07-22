@@ -1,6 +1,9 @@
 <?php
 namespace App\DAO;
 
+require_once __DIR__ . '/../Model/Pedido.php';
+require_once __DIR__ . '/../DAO/ItensPedidoDAO.php';
+
 use App\Model\Pedido;
 use App\DAO\ItensPedidoDAO;
 use PDO;
@@ -54,13 +57,13 @@ class PedidoDAO {
 
     public function buscarProdutosMaisVendidos(int $limit = 10): array {
         $sql = "SELECT
-                p.id AS produto_id,
+                p.id_produto AS produto_id,
                 p.nome AS produto_nome,
                 SUM(ip.quantidade) AS total_vendido
             FROM itens_pedido ip
-            JOIN variacoes v ON v.id = ip.variacao_id
-            JOIN produtos p ON p.id = v.produto_id
-            GROUP BY p.id
+            JOIN variacoes_produto v ON v.id_variacoes_produto = ip.variacao_id
+            JOIN produtos p ON p.id_produto = v.produto_id
+            GROUP BY p.id_produto
             ORDER BY total_vendido DESC
             LIMIT :limit";
 

@@ -1,7 +1,10 @@
 <?php
 namespace App\DAO;
 
-use App\Model\Variacoes;
+require_once __DIR__ . '/../Model/Variacao.php';
+require_once __DIR__ . '/../DAO/ProdutoDAO.php';
+
+use App\Model\Variacao;
 use App\DAO\ProdutoDAO;
 use PDO;
 use PDOException;
@@ -16,10 +19,10 @@ class VariacaoDAO {
         $this->produtoDAO = $produtoDAO;
     }
 
-    public function salvar(Variacoes $variacao): void {
+    public function salvar(Variacao $variacao): void {
         $this->conexao->beginTransaction();
         try {
-            $sql = "INSERT INTO variacoes (tamanho, estoque, produto_id)
+            $sql = "INSERT INTO variacoes_produto (tamanho, estoque, produto_id)
                     VALUES (:tamanho, :estoque, :produto_id)";
             $stmt = $this->conexao->prepare($sql);
             $stmt->bindValue(":tamanho", $variacao->getTamanho(), PDO::PARAM_STR);
@@ -36,9 +39,9 @@ class VariacaoDAO {
         }
     }
 
-    public function buscarPorId(int $id): ?Variacoes {
+    public function buscarPorId(int $id): ?Variacao {
         try {
-            $sql = "SELECT * FROM variacoes WHERE id = :id";
+            $sql = "SELECT * FROM variacoes_produto WHERE id_variacoes_produto = :id";
             $stmt = $this->conexao->prepare($sql);
             $stmt->bindValue(":id", $id, PDO::PARAM_INT);
             $stmt->execute();
@@ -51,12 +54,12 @@ class VariacaoDAO {
                 throw new Exception("Produto não encontrado para ID: " . $dados["produto_id"]);
             }
 
-            $variacao = new Variacoes(
+            $variacao = new Variacao(
                 $dados["tamanho"],
                 (int) $dados["estoque"],
-                $dados[$produto]
+                $produto->getId()
             );
-            $variacao->setId((int) $dados["id"]);
+            $variacao->setId((int) $dados["id_variacoes_produto"]);
 
             return $variacao;
 
@@ -67,7 +70,7 @@ class VariacaoDAO {
 
     public function buscarTodos(): array {
         try {
-            $sql = "SELECT * FROM variacoes";
+            $sql = "SELECT * FROM variacoes_produto";
             $stmt = $this->conexao->query($sql);
             $lista = [];
 
@@ -95,12 +98,12 @@ class VariacaoDAO {
                     throw new Exception("Produto não encontrado para ID: $produtoId");
                 }
 
-                $variacao = new Variacoes(
+                $variacao = new Variacao(
                     $dados["tamanho"],
                     (int) $dados["estoque"],
-                    $produtosCache[$produtoId]
+                    $produtosCache[$produtoId]->getId()
                 );
-                $variacao->setId((int) $dados["id"]);
+                $variacao->setId((int) $dados["id_variacoes_produto"]);
                 $lista[] = $variacao;
             }
 
@@ -111,14 +114,14 @@ class VariacaoDAO {
         }
     }
 
-    public function atualizar(Variacoes $variacao): void {
+    public function atualizar(Variacao $variacao): void {
         $this->conexao->beginTransaction();
         try {
-            $sql = "UPDATE variacoes SET
+            $sql = "UPDATE variacoes_produto SET
                         tamanho = :tamanho,
                         estoque = :estoque,
                         produto_id = :produto_id
-                    WHERE id = :id";
+                    WHERE id_variacoes_produto = :id";
 
             $stmt = $this->conexao->prepare($sql);
             $stmt->bindValue(":tamanho", $variacao->getTamanho(), PDO::PARAM_STR);
@@ -135,10 +138,10 @@ class VariacaoDAO {
         }
     }
 
-    public function atualizarEstoque(Variacoes $variacao): void {
+    public function atualizarEstoque(Variacao $variacao): void {
         $this->conexao->beginTransaction();
         try {
-            $sql = "UPDATE variacoes SET estoque = :estoque WHERE id = :id";
+            $sql = "UPDATE variacoes_produto SET estoque = :estoque WHERE id_variacoes_produto = :id";
             $stmt = $this->conexao->prepare($sql);
             $stmt->bindValue(":estoque", $variacao->getEstoque(), PDO::PARAM_INT);
             $stmt->bindValue(":id", $variacao->getId(), PDO::PARAM_INT);
@@ -155,7 +158,7 @@ class VariacaoDAO {
     public function excluir(int $id): void {
         $this->conexao->beginTransaction();
         try {
-            $sql = "DELETE FROM variacoes WHERE id = :id";
+            $sql = "DELETE FROM variacoes_produto WHERE id_variacoes_produto = :id";
             $stmt = $this->conexao->prepare($sql);
             $stmt->bindValue(":id", $id, PDO::PARAM_INT);
             $stmt->execute();

@@ -1,6 +1,9 @@
 <?php
 namespace App\DAO;
 
+require_once __DIR__ . '/../Model/Produto.php';
+require_once __DIR__ . '/../DAO/CategoriaDAO.php';
+
 use App\Model\Produto;
 use App\DAO\CategoriaDAO;
 use PDO;
@@ -47,7 +50,7 @@ class ProdutoDAO {
 
     public function buscarPorId(int $id): ?Produto {
         try {
-            $sql = "SELECT * FROM produtos WHERE id = :id";
+            $sql = "SELECT * FROM produtos WHERE id_produto = :id";
             $stmt = $this->conexao->prepare($sql);
             $stmt->bindValue(":id", $id, PDO::PARAM_INT);
             $stmt->execute();
@@ -68,9 +71,9 @@ class ProdutoDAO {
                 $dados["descricao"],
                 new DateTime($dados["data_cadastro"]),
                 (float) $dados["peso"],
-                $dados [$categoria]//-
+                $categoria->getId()//-
             );
-            $produto->setId((int) $dados["id"]);
+            $produto->setId((int) $dados["id_produto"]);
             return $produto;
 
         } catch (PDOException $e) {
@@ -82,7 +85,7 @@ class ProdutoDAO {
     if (empty($ids)) return [];
 
     $placeholders = implode(',', array_fill(0, count($ids), '?'));
-    $sql = "SELECT * FROM produtos WHERE id IN ($placeholders)";
+    $sql = "SELECT * FROM produtos WHERE id_produto IN ($placeholders)";
     $stmt = $this->conexao->prepare($sql);
     $stmt->execute($ids);
 
@@ -97,9 +100,9 @@ class ProdutoDAO {
             $dados["descricao"],
             new DateTime($dados["data_cadastro"]),
             (float) $dados["peso"],
-            $dados[$categoria]
+            $categoria->getId()
         );
-        $produto->setId((int) $dados["id"]);
+        $produto->setId((int) $dados["id_produto"]);
         $produtos[] = $produto;
     }
 
@@ -132,9 +135,9 @@ class ProdutoDAO {
                     $linha["descricao"],
                     new DateTime($linha["data_cadastro"]),
                     (float) $linha["peso"],
-                    $linha [$categoriasCache[$categoriaId]]//-
+                    $categoriasCache[$categoriaId]->getId()//-
                 );
-                $produto->setId((int) $linha["id"]);
+                $produto->setId((int) $linha["id_produto"]);
                 $produtos[] = $produto;
             }
 
@@ -158,7 +161,7 @@ class ProdutoDAO {
                         data_cadastro = :data_cadastro,
                         peso = :peso,
                         categoria_id = :categoria_id
-                    WHERE id = :id";
+                    WHERE id_produto = :id";
 
             $stmt = $this->conexao->prepare($sql);
             $stmt->bindValue(":nome", $produto->getNome(), PDO::PARAM_STR);
@@ -186,7 +189,7 @@ class ProdutoDAO {
         $this->conexao->beginTransaction();
 
         try {
-            $sql = "DELETE FROM produtos WHERE id = :id";
+            $sql = "DELETE FROM produtos WHERE id_produto = :id";
             $stmt = $this->conexao->prepare($sql);
             $stmt->bindValue(":id", $id, PDO::PARAM_INT);
             $stmt->execute();
